@@ -1,11 +1,13 @@
+const { readtask, readtaskbyId, createtask, updatetask, deletetask } = require("../controllers/task.controllers");
 const express = require("express");
+const LoginAuth = require("../middleware/auth");
 const  router = express.Router();
 
-router.get("/", readtask);
-router.get("/:id",readtaskbyId);
-router.post("/", createtask);
-router.put("/:id",updatetask);
-router.delete("/:id",deletetask);
+router.get("/", LoginAuth , readtask);
+router.get("/:id", LoginAuth ,readtaskbyId);
+router.post("/", LoginAuth ,createtask);
+router.put("/:id", LoginAuth ,updatetask);
+router.delete("/:id", LoginAuth ,deletetask);
 
 
-module.exports= router ;
+module.exports = router ; 

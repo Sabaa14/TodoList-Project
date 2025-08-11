@@ -8,7 +8,7 @@ const login = async (req,res) => {
 
 
         if(!existingUser) {
-            return res.status(404).json({success: false, message: "user is not found"});
+            return res.status(404).json({success: false, message: "User is not found"});
         }
     
     try {
@@ -16,7 +16,7 @@ const login = async (req,res) => {
         const isPassowordValid = await bcrypt.compare(password ,existingUser.hashedPassword);
 
         if(!isPassowordValid){
-        return res.status(404).json({success: false, message: "user is not found"});
+        return res.status(404).json({success: false, message: "password is not correct!"});
         }
         
         const token = jwt.sign({id: existingUser._id , email : existingUser.email}, process.env.jsonwebtoken);
@@ -24,7 +24,7 @@ const login = async (req,res) => {
         res.cookie("token" ,token);
 
         res.status(200).json({success: true, message: "user has Looged in"});
-        
+
     } catch (error) {
         res.status(500).json("Error :" , error.message);
         return res.status(500).json("Server error")
@@ -37,8 +37,8 @@ const register = async ( req,res ) => {
 const { username , email , password ,age } = req.body;
 const exsitingUser = await User.findOne({email});
 
-if (exsitingUser){
-    res.status(400).json({success: false, message :"The user is already created !", user : exsitingUser});
+if (!exsitingUser){
+    res.status(400).json({success: false, message :"User is not found!", user : exsitingUser});
 }
 
 try {

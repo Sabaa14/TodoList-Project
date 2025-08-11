@@ -1,6 +1,6 @@
 const { readtask, readtaskbyId, createtask, updatetask, deletetask } = require("../controllers/task.controllers");
 const express = require("express");
-const LoginAuth = require("../middleware/auth");
+const {LoginAuth} = require("../middleware/auth");
 const  router = express.Router();
 
 router.get("/", LoginAuth , readtask);

@@ -19,7 +19,7 @@ const login = async (req,res) => {
         return res.status(404).json({success: false, message: "password is not correct!"});
         }
         
-        const token = jwt.sign({id: existingUser._id , email : existingUser.email}, process.env.jsonwebtoken);
+        const token = jwt.sign({id: existingUser._id , email : existingUser.email}, process.env.JWT_SECRET);
 
         res.cookie("token" ,token);
 

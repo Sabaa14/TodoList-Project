@@ -5,21 +5,26 @@ const LoginAuth = async (req , res ,next ) =>{
 
 try {
     const token = req.cookies.token;
-    const {id,email} = jwt.verify(token,process.env.jsonwebtoken);
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: "No token provided" });
+    }
+
+    const {id,email} = jwt.verify(token,process.env.JWT_SECRET);
     
-    const user = await User.findOne({_id : id});
-    if(!user.isLogin){
-       return res.status(402).json({success: false, message: 'Not authorized'});
+    const user = await User.findById(id);
+
+    if(!user){
+       return res.status(401).json({success: false, message: 'Not authorized'});
     }
     
     
-    req.id = id;
-    req.email =email;
-    
+   req.user = user;
+
     next();
     
 } catch (error) {
-            return res.status(401).json({ success: false, message: "Not authorized" });
+    return res.status(401).json({ success: false, message: "Not authorized" });
 
 }
 

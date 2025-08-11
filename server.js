@@ -5,8 +5,9 @@ const taskRoutes = require("./routes/task.routes");
 const cors = require("cors");
 const connectDB = require("./config/db");
 require("dotenv").config();
+const cookieParser = require('cookie-parser');
 
-
+app.use(cookieParser());
 
 app.use(express.json());
 

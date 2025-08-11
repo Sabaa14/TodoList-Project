@@ -12,7 +12,7 @@ const login = async (req,res) => {
     
     try {
 
-        const isPassowordValid = await bcrypt.compare(password ,existingUser.hashedPassword);
+        const isPassowordValid = await bcrypt.compare(password ,existingUser.password);
 
         if(!isPassowordValid){
         return res.status(404).json({success: false, message: "password is not correct!"});
@@ -22,11 +22,10 @@ const login = async (req,res) => {
 
         res.cookie("token" ,token);
 
-        res.status(200).json({success: true, message: "user has Looged in"});
+        res.status(200).json({success: true, message: "user has Logged in"});
 
     } catch (error) {
         res.status(500).json("Error :" , error.message);
-        return res.status(500).json("Server error")
     }
 
 }
@@ -55,8 +54,8 @@ try {
          res.status(201).json({ success : true , message : " a NewUser has just been created " , user : newUser});
 
         } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-}
+        res.status(500).json("Error :" , error.message);
+        }
 }
 
 module.exports = {

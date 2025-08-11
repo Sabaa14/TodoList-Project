@@ -19,8 +19,8 @@ try {
     }
     
     
-   req.user = user;
-
+        req.id = id;
+        req.email = email;
     next();
     
 } catch (error) {

@@ -4,8 +4,18 @@ const connectDB = require("./config/db");
 const app = express();
 require("dotenv").config();
 
+const userRoutes = require("./routes/user.routes")
+
+
+app.use("/users",userRoutes);
+
 
 app.use(express.json());
+
+app.use((error, req, res, next) => {
+    console.log("This is the error handling middleware: ", error);
+    res.status(500).send("Something went wrong");
+})
 
 app.listen(process.env.PORT , () => {
     connectDB();

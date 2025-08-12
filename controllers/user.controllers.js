@@ -2,6 +2,7 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 var validator = require("email-validator");
+const PasswordValidator = require('password-validator');
 
 
 const login = async (req,res) => {
@@ -37,7 +38,14 @@ const register = async ( req,res ) => {
 const { username , email , password ,age } = req.body;
 const exsitingUser = await User.findOne({email});
 const emailtester = validator.validate(email);
+const Passwordvalidation = new PasswordValidator();
+Passwordvalidation
+  .is().min(8)
+  .has().uppercase()
+  .has().lowercase()
+  .has().digits();
 
+  const passwordtester = Passwordvalidation.validate(password);
 if (exsitingUser){
     return res.status(400).json({success: false, message :"The user is already created!", user : exsitingUser});
 }
@@ -46,8 +54,8 @@ if(age<18){
     return res.status(400).json({success: false, message :"You must be at least 18 years old to register!"});
 }
 
-if(password.length < 8 ){
-    return res.status(400).json({success :false , message : "Password should be at least 8 charchters"})
+if(!passwordtester){
+  return res.status(400).json({ success: false, message: "Password must be at least 8 characters, include uppercase, lowercase, and a number." });
 }
 
 if(!emailtester){

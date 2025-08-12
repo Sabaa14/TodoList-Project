@@ -39,6 +39,9 @@ if (exsitingUser){
     return res.status(400).json({success: false, message :"The user is already created!", user : exsitingUser});
 }
 
+if(age<18){
+    return res.status(400).json({success: false, message :"You must be at least 18 years old to register!"});
+}
 try {
          const hashedPassword = await bcrypt.hash(password,10);
 

@@ -18,7 +18,7 @@ try {
        return res.status(401).json({success: false, message: 'Not authorized'});
     }
     
-    
+    // user instead of id and mail 
         req.id = id;
         req.email = email;
     next();

@@ -38,14 +38,15 @@ const register = async ( req,res ) => {
 const { username , email , password ,age } = req.body;
 const exsitingUser = await User.findOne({email});
 const emailtester = validator.validate(email);
-const Passwordvalidation = new PasswordValidator();
-Passwordvalidation
+const Passwordvalidation = new PasswordValidator()
   .is().min(8)
   .has().uppercase()
   .has().lowercase()
   .has().digits();
 
   const passwordtester = Passwordvalidation.validate(password);
+
+
 if (exsitingUser){
     return res.status(400).json({success: false, message :"The user is already created!", user : exsitingUser});
 }
